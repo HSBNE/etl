@@ -1,0 +1,17 @@
+/.git
+
+# .gitignore
+/venv
+/.venv
+/var
+/.meltano
+/.env
+/ui.cfg
+/output
+
+# transform/.gitignore
+/transform/target/
+/transform/dbt_modules/
+/transform/logs/
+
+# custom

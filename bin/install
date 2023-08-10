@@ -1,0 +1,18 @@
+# vim: ft=sh
+#!/usr/bin/env bash
+
+PATH_SCRIPT_NORM="$( cd "$(dirname "$0")" ; pwd -P )"
+PATH_SCRIPT="$( cd "$(dirname $(realpath "$0"))" ; pwd -P )"
+PATH_BASE_NORM="$( cd $PATH_SCRIPT_NORM/../; pwd -P )"
+PATH_BASE="$( cd $PATH_SCRIPT/../; pwd -P )"
+
+cd "${PATH_BASE}" | exit;
+
+asdf install
+pip install --upgrade pip
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+meltano install
+
+echo "Install Finished. Activate the venv in your shell"

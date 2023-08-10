@@ -1,0 +1,49 @@
+version: 1
+default_environment: dev
+environments:
+- name: dev
+- name: staging
+- name: prod
+project_id: etl-8bf7230c-d8ff-4df1-ac78-ae3b49986d52
+plugins:
+  extractors:
+  - name: tap-xero
+    variant: singer-io
+    pip_url: tap-xero
+    config:
+      start_date: '2022-04-01'
+      tenant_id: 41f7f6fe-a10a-474d-a8ed-0d712b097a4f
+  - name: tap-stripe
+    variant: singer-io
+    pip_url: git+https://github.com/singer-io/tap-stripe.git
+    config:
+      account_id: acct_14MI8o4HalvUbsuW
+      start_date: '2022-04-01'
+  loaders:
+  - name: target-csv
+    variant: hotgluexyz
+    pip_url: git+https://github.com/hotgluexyz/target-csv.git
+  - name: target-postgres
+    variant: datamill-co
+    pip_url: singer-target-postgres
+ui:
+  bind_port: 5555
+schedules:
+- name: xero-to-csv
+  interval: '@once'
+  extractor: tap-xero
+  loader: target-csv
+  transform: skip
+  start_date: 2022-04-01 00:00:00
+- name: stripe-to-csv
+  interval: '@once'
+  extractor: tap-stripe
+  loader: target-csv
+  transform: skip
+  start_date: 2022-04-01 00:00:00
+- name: xero-to-timescale
+  interval: '@daily'
+  extractor: tap-xero
+  loader: target-postgres
+  transform: skip
+  start_date: 2022-04-01 00:00:00

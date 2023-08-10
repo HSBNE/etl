@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  meltano:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      tags:
+        - "hsbne/meltano:v2.20.0"
+        - "hsbne/meltano:latest"
+    image: hsbne/meltano:v2.20.0
+    container_name: meltano
+    command: "ui"
+    env_file: 
+      - .env
+    environment:
+      - MELTANO_DATABASE_URI=postgresql://${MELTANO_DATABASE_USER}:${MELTANO_DATABASE_PASSWORD}@timescale/meltano_system
+    restart: unless-stopped
+    volumes:
+      - ./var/logs:/project/.meltano/logs/elt
+    ports:
+      #- "0.0.0.0:5000:5000"
+      - "5000:5000"
+    networks:
+      - services
+
+networks:
+  services:
+    driver: bridge
+    name: services
+    ipam:
+      driver: default
+    driver_opts:
+      com.docker.network.bridge.name: services

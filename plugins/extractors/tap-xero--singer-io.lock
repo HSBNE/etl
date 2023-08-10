@@ -1,0 +1,66 @@
+{
+  "plugin_type": "extractors",
+  "name": "tap-xero",
+  "namespace": "tap_xero",
+  "variant": "singer-io",
+  "label": "Xero",
+  "docs": "https://hub.meltano.com/extractors/tap-xero--singer-io",
+  "repo": "https://github.com/singer-io/tap-xero",
+  "pip_url": "tap-xero",
+  "capabilities": [
+    "catalog",
+    "discover",
+    "state"
+  ],
+  "settings_group_validation": [
+    [
+      "start_date",
+      "client_id",
+      "client_secret",
+      "tenant_id",
+      "refresh_token"
+    ]
+  ],
+  "settings": [
+    {
+      "name": "start_date",
+      "kind": "date_iso8601",
+      "label": "Start Date",
+      "description": "Determines how much historical data will be extracted. Please be aware that the larger the time period and amount of data, the longer the initial extraction can be expected to take."
+    },
+    {
+      "name": "client_id",
+      "kind": "password",
+      "label": "Client ID",
+      "description": "Your Xero client ID. Issued when you create your app."
+    },
+    {
+      "name": "client_secret",
+      "kind": "password",
+      "label": "Client Secret",
+      "description": "Your Xero client secret."
+    },
+    {
+      "name": "tenant_id",
+      "label": "Tenant ID",
+      "description": "Your Xero tenant ID."
+    },
+    {
+      "name": "refresh_token",
+      "kind": "password",
+      "label": "Refresh Token",
+      "description": "Your Xero refresh token."
+    },
+    {
+      "name": "include_archived_contacts",
+      "kind": "boolean",
+      "label": "Include Archived Contacts",
+      "description": "Whether to include archive contacts in the sync."
+    },
+    {
+      "name": "user_agent",
+      "label": "User Agent",
+      "description": "The user agent sent with your requests to the Xero API."
+    }
+  ]
+}
