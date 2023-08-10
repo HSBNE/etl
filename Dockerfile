@@ -6,6 +6,9 @@ WORKDIR /project
 #COPY requirements.txt .
 #RUN pip install -r requirements.txt
 
+RUN apt update && apt install libpq-dev -y \
+    && apt clean && rm -rf /var/lib/apt/lists/*
+
 COPY . .
 RUN meltano install
 
